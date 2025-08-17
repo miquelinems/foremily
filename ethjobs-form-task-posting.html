@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Task - EthJobs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo-space {
+            width: 180px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-menu a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Company Banner */
+        .company-banner {
+            background: white;
+            padding: 40px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .company-info {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .company-logo {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .company-details h1 {
+            font-size: 32px;
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+
+        .company-meta {
+            display: flex;
+            gap: 20px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .company-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 40px;
+            background: #f9fafb;
+        }
+
+        .page-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 40px;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Form Sections */
+        .form-section {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 12px;
+            font-size: 14px;
+        }
+
+        .form-label {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .helper-text {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 20px;
+            margin-left: 44px;
+        }
+
+        /* Tile Options */
+        .tile-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            margin-left: 44px;
+        }
+
+        .tile-option {
+            padding: 18px;
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .tile-option:hover {
+            border-color: #667eea;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .tile-option.selected {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-color: #667eea;
+        }
+
+        .tile-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .tile-label {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 14px;
+        }
+
+        /* Text Inputs */
+        .input-wrapper {
+            margin-left: 44px;
+        }
+
+        .text-area {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px;
+            resize: vertical;
+            min-height: 120px;
+            transition: all 0.3s ease;
+            background: white;
+            font-family: inherit;
+        }
+
+        .text-area:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+            margin-bottom: 20px;
+            font-family: inherit;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .example-text {
+            background: #f3f4f6;
+            padding: 15px;
+            border-radius: 8px;
+            color: #6b7280;
+            font-style: italic;
+            margin-top: 10px;
+            border-left: 3px solid #667eea;
+            font-size: 14px;
+        }
+
+        /* Upload Buttons */
+        .upload-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            margin-left: 44px;
+        }
+
+        .upload-btn {
+            flex: 1;
+            padding: 20px;
+            background: #f9fafb;
+            border: 2px dashed #e5e7eb;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .upload-btn:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        /* Price Input */
+        .price-input-container {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 15px;
+            margin-left: 44px;
+            max-width: 300px;
+        }
+
+        .price-symbol {
+            font-size: 24px;
+            color: #6b7280;
+            margin-right: 10px;
+        }
+
+        .price-input {
+            border: none;
+            font-size: 24px;
+            font-weight: 600;
+            color: #1f2937;
+            outline: none;
+            flex: 1;
+        }
+
+        .price-hint {
+            color: #6b7280;
+            font-size: 14px;
+            margin-top: 10px;
+            margin-left: 44px;
+        }
+
+        /* Submit Button */
+        .submit-section {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .btn-publish {
+            padding: 18px 48px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-publish:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-publish:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Field label styling */
+        .field-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4b5563;
+            font-weight: 500;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo-space">EthJobs</div>
+            <nav class="nav-menu">
+                <a href="#">Dashboard</a>
+                <a href="#">Analytics</a>
+                <a href="#">Settings</a>
+                <a href="#">Help</a>
+            </nav>
+        </div>
+
+        <!-- Company Banner -->
+        <div class="company-banner">
+            <div class="company-info">
+                <div class="company-logo">EJ</div>
+                <div class="company-details">
+                    <h1>EthJobs</h1>
+                    <div class="company-meta">
+                        <span>🌐 Web3 Recruitment</span>
+                        <span>📍 Global</span>
+                        <span>👥 500+ Companies</span>
+                        <span>💼 10,000+ Jobs Posted</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <h1 class="page-title">Post a New Task</h1>
+
+            <!-- Form Section 1: Job Type -->
+            <div class="form-section">
+                <label class="form-label">
+                    <span class="section-number">1</span>
+                    Which of these best describes your job?
+                </label>
+                <div class="tile-options">
+                    <div class="tile-option" onclick="selectTile(this, 'jobType')">
+                        <div class="tile-icon">📜</div>
+                        <div class="tile-label">Smart Contracts</div>
+                    </div>
+                    <div class="tile-option" onclick="selectTile(this, 'jobType')">
+                        <div class="tile-icon">🤖</div>
+                        <div class="tile-label">AI / Machine Learning</div>
+                    </div>
+                    <div class="tile-option" onclick="selectTile(this, 'jobType')">
+                        <div class="tile-icon">🔗</div>
+                        <div class="tile-label">Full Integration</div>
+                    </div>
+                    <div class="tile-option" onclick="selectTile(this, 'jobType')">
+                        <div class="tile-icon">💡</div>
+                        <div class="tile-label">Other</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Section 2: Desired Result -->
+            <div class="form-section">
+                <label class="form-label">
+                    <span class="section-number">2</span>
+                    What result do you want to get?
+                </label>
+                <div class="tile-options">
+                    <div class="tile-option" onclick="selectTile(this, 'result')">
+                        <div class="tile-icon">🚀</div>
+                        <div class="tile-label">New product</div>
+                    </div>
+                    <div class="tile-option" onclick="selectTile(this, 'result')">
+                        <div class="tile-icon">✨</div>
+                        <div class="tile-label">New feature</div>
+                    </div>
+                    <div class="tile-option" onclick="selectTile(this, 'result')">
+                        <div class="tile-icon">🐛</div>
+                        <div class="tile-label">Debugging</div>
+                    </div>
+                    <div class="tile-option" onclick="selectTile(this, 'result')">
+                        <div class="tile-icon">⚡</div>
+                        <div class="tile-label">Improve efficiency</div>
+                    </div>
+                    <div class="tile-option" onclick="selectTile(this, 'result')">
+                        <div class="tile-icon">🔧</div>
+                        <div class="tile-label">Other</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Section 3: Problem Statement -->
+            <div class="form-section">
+                <label class="form-label">
+                    <span class="section-number">3</span>
+                    What problem do you want solved?
+                </label>
+                <div class="input-wrapper">
+                    <textarea class="text-area" placeholder="Describe the issue or challenge clearly..." id="problemInput"></textarea>
+                    <div class="example-text">
+                        <strong>Example:</strong> "We need to optimize our NFT minting contract to reduce gas fees by at least 30% while maintaining all current functionality. The contract currently uses 150,000 gas per mint, and we're targeting under 100,000 gas."
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Section 4: Context -->
+            <div class="form-section">
+                <label class="form-label">
+                    <span class="section-number">4</span>
+                    Make your job stand out
+                </label>
+                <p class="helper-text">Clear and engaging descriptions attract better applicants.</p>
+                <div class="input-wrapper">
+                    <textarea class="text-area" placeholder="Provide additional context about your project..." id="contextInput"></textarea>
+                    <div class="example-text">
+                        <strong>Example:</strong> "We're building a decentralized social platform on Polygon. This contract will handle user profiles, content storage references, and reward distribution. We have a working MVP but need optimization for mainnet launch. Ideal candidates have experience with ERC-721, gas optimization, and Layer 2 solutions."
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Section 5: Resources -->
+            <div class="form-section">
+                <label class="form-label">
+                    <span class="section-number">5</span>
+                    What resources will applicants have access to?
+                </label>
+                <div class="input-wrapper">
+                    <textarea class="text-area" placeholder="List repos, APIs, datasets, documentation, or other resources..." id="resourcesInput"></textarea>
+                    <div class="example-text">
+                        <strong>Example:</strong> "GitHub repo (private access granted), Figma designs, API documentation, test environment on Mumbai testnet, 1-on-1 weekly calls with our tech lead"
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Section 6: Supporting Material -->
+            <div class="form-section">
+                <label class="form-label">
+                    <span class="section-number">6</span>
+                    Add supporting material
+                </label>
+                <p class="helper-text">Upload slides or a video to explain your project.</p>
+                <div class="upload-buttons">
+                    <div class="upload-btn" onclick="handleUpload('slides')">
+                        <span class="upload-icon">📊</span>
+                        <span>Upload slides</span>
+                    </div>
+                    <div class="upload-btn" onclick="handleUpload('video')">
+                        <span class="upload-icon">🎥</span>
+                        <span>Add video</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Section 7: Job Details -->
+            <div class="form-section">
+                <label class="form-label">
+                    <span class="section-number">7</span>
+                    Job Details
+                </label>
+                <div class="input-wrapper">
+                    <label class="field-label">Title (short, descriptive)</label>
+                    <input type="text" class="text-input" placeholder="Example: Smart contract for NFT marketplace" id="titleInput">
+                    
+                    <label class="field-label">Description (detailed explanation of scope, milestones, timeline)</label>
+                    <textarea class="text-area" placeholder="Provide details so applicants know what's expected..." style="min-height: 150px;" id="descriptionInput"></textarea>
+                </div>
+            </div>
+
+            <!-- Form Section 8: Pricing & Publish -->
+            <div class="form-section">
+                <label class="form-label">
+                    <span class="section-number">8</span>
+                    Set a starting price
+                </label>
+                <div class="price-input-container">
+                    <span class="price-symbol">$</span>
+                    <input type="number" class="price-input" placeholder="0" min="0" id="priceInput">
+                </div>
+                <p class="price-hint">Typical projects start around <strong style="color: #667eea;">$500</strong></p>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="submit-section">
+                <button class="btn-publish" onclick="publishTask()" id="publishBtn">You're done! Publish the task</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const formData = {
+            jobType: null,
+            result: null,
+            problem: '',
+            context: '',
+            resources: '',
+            title: '',
+            description: '',
+            price: 0
+        };
+
+        function selectTile(tile, type) {
+            // Remove selected class from siblings
+            const parent = tile.parentElement;
+            parent.querySelectorAll('.tile-option').forEach(t => t.classList.remove('selected'));
+            
+            // Add selected class to clicked tile
+            tile.classList.add('selected');
+            
+            // Store selection
+            if (type === 'jobType') {
+                formData.jobType = tile.querySelector('.tile-label').textContent;
+            } else if (type === 'result') {
+                formData.result = tile.querySelector('.tile-label').textContent;
+            }
+            
+            checkFormValidity();
+        }
+
+        function handleUpload(type) {
+            // Simulate file upload
+            alert(`${type === 'slides' ? 'Slides' : 'Video'} upload interface would open here`);
+        }
+
+        function checkFormValidity() {
+            const isValid = 
+                formData.jobType &&
+                formData.result &&
+                formData.problem.length >= 10 &&
+                formData.context.length >= 10 &&
+                formData.resources.length >= 10 &&
+                formData.title.length >= 5 &&
+                formData.description.length >= 20 &&
+                formData.price >= 100;
+            
+            document.getElementById('publishBtn').disabled = !isValid;
+        }
+
+        function publishTask() {
+            if (document.getElementById('publishBtn').disabled) {
+                alert('Please complete all required fields');
+                return;
+            }
+            
+            // Show success message
+            alert('Task published successfully! 🎉\n\nYour job posting is now live and visible to thousands of Web3 developers.');
+            
+            // Log form data (in real app, this would be sent to backend)
+            console.log('Task Published:', formData);
+            
+            // Optionally redirect or reset form
+            // window.location.href = '/dashboard';
+        }
+
+        // Input event listeners
+        document.getElementById('problemInput').addEventListener('input', function(e) {
+            formData.problem = e.target.value;
+            checkFormValidity();
+        });
+
+        document.getElementById('contextInput').addEventListener('input', function(e) {
+            formData.context = e.target.value;
+            checkFormValidity();
+        });
+
+        document.getElementById('resourcesInput').addEventListener('input', function(e) {
+            formData.resources = e.target.value;
+            checkFormValidity();
+        });
+
+        document.getElementById('titleInput').addEventListener('input', function(e) {
+            formData.title = e.target.value;
+            checkFormValidity();
+        });
+
+        document.getElementById('descriptionInput').addEventListener('input', function(e) {
+            formData.description = e.target.value;
+            checkFormValidity();
+        });
+
+        document.getElementById('priceInput').addEventListener('input', function(e) {
+            formData.price = parseInt(e.target.value) || 0;
+            checkFormValidity();
+        });
+
+        // Smooth scroll when clicking numbered sections
+        document.querySelectorAll('.section-number').forEach(num => {
+            num.style.cursor = 'pointer';
+            num.parentElement.style.cursor = 'pointer';
+        });
+    </script>
+</body>
+</html>
